@@ -12,8 +12,8 @@ int main(int argc, char const *argv[])
     .done=0};
 
 
-    pthread_create(&clock, NULL, &clock_routine, &argumentos);
-    pthread_create(&timersched, NULL, &timer_scheduler_routine, &argumentos);
-    pthread_create(&timerprocessgenerator, NULL, &timer_process_generator_routine, &argumentos);
+    pthread_create(&clock, NULL, clock_routine, &argumentos);
+    pthread_create(&timersched, NULL, timer_scheduler_routine, &argumentos);
+    pthread_create(&timerprocessgenerator, NULL, timer_process_generator_routine, &argumentos);
     return 0;
 }
