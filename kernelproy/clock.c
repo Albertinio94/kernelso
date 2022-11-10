@@ -1,5 +1,4 @@
 #include "clock.h"
-#include "structures.h"
 void * clock_routine(void * args){
     argumentosparaclockytimer * argumentosinterpretados = args;
     while (1){
