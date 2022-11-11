@@ -1,12 +1,13 @@
 #include "clock.h"
-void clock_routine(pthread_mutex_t *mutex, pthread_cond_t *condicion1, pthread_cond_t *condicion2, int cantidad_temporizadores, int *done){
+void * clock_routine(void * args){
+    argumentosparaclockytimer * argumentosinterpretados = args;
     while (1){
-        pthread_mutex_lock(mutex);
-        while(*done<cantidad_temporizadores){
-            pthread_cond_wait(mutex, condicion1);
+        pthread_mutex_lock(&argumentosinterpretados->mutex);
+        while(argumentosinterpretados->done<argumentosinterpretados->cantidad_temporizadores){
+            pthread_cond_wait(&argumentosinterpretados->condicion1, &argumentosinterpretados->mutex);
         }
-        *done=0;
-        pthread_cond_broadcast(condicion2);
-        pthread_mutex_unlock(mutex);
+        ((argumentosparaclockytimer *)args)->done=0;
+        pthread_cond_broadcast(&argumentosinterpretados->condicion2);
+        pthread_mutex_unlock(&argumentosinterpretados->mutex);
     }
 }
