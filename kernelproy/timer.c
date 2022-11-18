@@ -22,6 +22,8 @@ void* timer_process_generator_routine(void* input_args)
 {
     common_args* args = input_args;
     pthread_mutex_lock(&args->mutex);
+    pcb procesogenerado;
+    unsigned int pid = 0;
     int pulses = 1;
     while (1) {
         args->done++;
@@ -29,6 +31,8 @@ void* timer_process_generator_routine(void* input_args)
         if (pulses == 500) {
             printf("SOY EL PROCESS GENERATOR Y HE CONTADO 500 PULSOS\n");
             fflush(stdout);
+            processgenerator(&args->preparados, pid);
+            pid++;
             pulses = 1;
         }
         pthread_cond_signal(&args->condition1);
