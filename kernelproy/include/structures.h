@@ -15,8 +15,8 @@ nodo;
 
 typedef struct
 {
-    nodo primero;
-    nodo ultimo;
+    nodo *primero;
+    nodo *ultimo;
 } cola;
 
 struct common_args{
@@ -29,4 +29,8 @@ struct common_args{
     cola bloqueados;
 };
 typedef struct common_args common_args;
+
+
+void encolar(cola *cola_a_encolar, nodo *nodo_a_encolar);
+void desencolar(cola *cola_a_desencolar, nodo *nodo_a_desencolar);
 #endif

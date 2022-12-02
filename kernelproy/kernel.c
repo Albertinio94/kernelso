@@ -2,6 +2,9 @@
 #include "commons.h"
 #include "stdio.h"
 #include "structures.h"
+#include <unistd.h>
+#include <stdlib.h>
+int main(int argc, char const *argv[])
 #include "timer.h"
 #include "unistd.h"
 int main(int argc, char const* argv[])
@@ -14,7 +17,9 @@ int main(int argc, char const* argv[])
         .condition1 = PTHREAD_COND_INITIALIZER,
         .condition2 = PTHREAD_COND_INITIALIZER,
         .mutex = PTHREAD_MUTEX_INITIALIZER,
-        .done = 0
+        .done = 0,
+        .preparados = malloc(sizeof(cola)),
+        .bloqueados = malloc(sizeof(cola))
     };
     functions[0] = clock_routine;
     functions[1] = timer_scheduler_routine;

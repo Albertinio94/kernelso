@@ -34,6 +34,7 @@ void* timer_process_generator_routine(void* input_args)
             processgenerator(&args->preparados, pid);
             pid++;
             pulses = 1;
+            printf("%d\n", args->preparados->ultimo->pcbdelnodo.id);
         }
         pthread_cond_signal(&args->condition1);
         pthread_cond_wait(&args->condition2, &args->mutex);

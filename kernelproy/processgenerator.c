@@ -13,6 +13,6 @@ void processgenerator(cola *ready, unsigned int pid)
     nuevonodo = malloc(sizeof(nodo));
     nuevonodo->pcbdelnodo = *procesoagenerar;
     nuevonodo->siguiente = NULL;
-    ready->ultimo.siguiente = *nuevonodo;
-    ready->ultimo = *nuevonodo;
+    nuevonodo->anterior = NULL;
+    encolar(ready, nuevonodo);
 }
