@@ -1,5 +1,6 @@
 #include "structures.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 void encolar(cola *cola_a_encolar, nodo *nodo_a_encolar)
 {
@@ -31,7 +32,8 @@ void desencolar(cola *cola_a_desencolar, nodo *nodo_a_desencolar)
     }
     if (nodo_a_desencolar == cola_a_desencolar->primero)
     {
-        cola_a_desencolar->primero == NULL;
+        cola_a_desencolar->primero = NULL;
+        cola_a_desencolar->ultimo = NULL;
         free(nodo_a_desencolar);
     }
     else if (nodo_a_desencolar == cola_a_desencolar->ultimo)
