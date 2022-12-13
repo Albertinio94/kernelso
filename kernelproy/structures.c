@@ -18,6 +18,7 @@ void encolar(cola *cola_a_encolar, nodo *nodo_a_encolar)
     {
         cola_a_encolar->ultimo->siguiente = nodo_a_encolar;
         nodo_a_encolar->anterior = cola_a_encolar->ultimo;
+        cola_a_encolar->ultimo = nodo_a_encolar;
     }
 }
 
@@ -42,7 +43,7 @@ void desencolar(cola *cola_a_desencolar, nodo *nodo_a_desencolar)
     else
     {
         nodo_para_recorrer = cola_a_desencolar->primero;
-        while (nodo_para_recorrer == !nodo_a_desencolar || nodo_para_recorrer->siguiente == NULL)
+        while (nodo_para_recorrer != nodo_a_desencolar || nodo_para_recorrer->siguiente == NULL)
         {
             nodo_para_recorrer = nodo_para_recorrer->siguiente;
         }
