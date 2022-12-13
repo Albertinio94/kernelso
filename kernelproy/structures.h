@@ -11,17 +11,18 @@ typedef struct
 struct nodo
 {
     pcb pcbdelnodo;
-    nodo *siguiente;
-    nodo *anterior;
+    struct nodo *siguiente;
+    struct nodo *anterior;
 };
 typedef struct nodo nodo;
-struct cola
+
+typedef struct
 {
     nodo *primero;
     nodo *ultimo;
-};
-typedef struct cola cola;
-struct argumentosparaclockytimer
+} cola;
+
+typedef struct
 {
     pthread_mutex_t mutex;
     pthread_cond_t condicion1;
@@ -30,8 +31,7 @@ struct argumentosparaclockytimer
     int cantidadtemporizadores;
     cola *preparados;
     cola *bloqueados;
-};
-typedef struct argumentosparaclockytimer argumentosparaclockytimer;
+} argumentosparaclockytimer;
 
 void encolar(cola *cola_a_encolar, nodo *nodo_a_encolar);
 void desencolar(cola *cola_a_desencolar, nodo *nodo_a_desencolar);
