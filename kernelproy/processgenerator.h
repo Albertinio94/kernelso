@@ -2,7 +2,7 @@
 #define PG_H
 #include "structures.h"
 
-void processgenerator(cola *ready, unsigned int pid);
+void processgenerator_routine(cola *ready, unsigned int pid);
 
 
 #endif

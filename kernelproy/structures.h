@@ -33,7 +33,8 @@ typedef struct
     cola *bloqueados;
 } argumentosparaclockytimer;
 
-void init(cola *cola);
+void init_cola(cola *cola);
 void encolar(cola *cola_a_encolar, nodo *nodo_a_encolar);
+void desencolar_y_borrar(cola *cola_a_desencolar, nodo *nodo_a_desencolar);
 void desencolar(cola *cola_a_desencolar, nodo *nodo_a_desencolar);
 #endif

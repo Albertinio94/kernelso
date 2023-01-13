@@ -24,6 +24,7 @@ void* timer_process_generator_routine(void* input_args)
     pthread_mutex_lock(&args->mutex);
     pcb procesogenerado;
     unsigned int pid = 0;
+<<<<<<< HEAD
     int pulses = 1;
     while (1) {
         args->done++;
@@ -32,6 +33,16 @@ void* timer_process_generator_routine(void* input_args)
             printf("SOY EL PROCESS GENERATOR Y HE CONTADO 500 PULSOS\n");
             fflush(stdout);
             processgenerator(&args->preparados, pid);
+=======
+    int cuentapulsos = 1;
+    while (1)
+    {
+        argumentosinterpretados->done++;
+        cuentapulsos++;
+        if (cuentapulsos == 500)
+        {
+            processgenerator_routine(argumentosinterpretados->preparados, pid);
+>>>>>>> 1f85be2 (probado el process generator, añadidos tests y modificado el encolado)
             pid++;
             pulses = 1;
             printf("%d\n", args->preparados->ultimo->pcbdelnodo.id);

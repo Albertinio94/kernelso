@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "structures.h"
+#include "processgenerator.h"
 
 int main(int argc, char const *argv[])
 {
-    // usar getopt()
+    /*// usar getopt()
     pcb pcbpruebas = {
         .id = 0,
         .quantum = 100,
@@ -23,7 +24,7 @@ int main(int argc, char const *argv[])
     nodopruebas2->pcbdelnodo = pcbpruebas;
 
     cola colapruebas;
-    //init(&colapruebas);
+    //init_cola(&colapruebas);
 
     printf("no exploto antes de encolar el primero\n");
     encolar(&colapruebas, nodopruebas0);
@@ -51,5 +52,51 @@ int main(int argc, char const *argv[])
     desencolar(&colapruebas, nodopruebas0);
     if (colapruebas.primero == NULL)
         printf("la cola está vacía\n");
+    */
+    unsigned int pid;
+    cola *ready;
+    srand(time(NULL));
+    ready = (cola *) malloc(sizeof(cola));
+    init_cola(ready);
+    printf("no exploto al llegar a inicializar la cola.\n");
+    processgenerator_routine(ready, pid);
+    printf(
+        "El id del primer proceso de la cola es %d, su tiempo de vida es %d y su quantum es %d\n",
+        ready->primero->pcbdelnodo.id,
+        ready->primero->pcbdelnodo.tiempodevida,
+        ready->primero->pcbdelnodo.quantum
+    );
+    pid++;
+    processgenerator_routine(ready, pid);
+    printf(
+        "El id del ultimo proceso de la cola es %d, su tiempo de vida es %d y su quantum es %d\n",
+        ready->ultimo->pcbdelnodo.id,
+        ready->ultimo->pcbdelnodo.tiempodevida,
+        ready->ultimo->pcbdelnodo.quantum
+    );
+    pid++;
+    processgenerator_routine(ready, pid);
+    printf(
+        "El id del ultimo proceso de la cola es %d, su tiempo de vida es %d y su quantum es %d\n",
+        ready->ultimo->pcbdelnodo.id,
+        ready->ultimo->pcbdelnodo.tiempodevida,
+        ready->ultimo->pcbdelnodo.quantum
+    );
+    pid++;
+    processgenerator_routine(ready, pid);
+    printf(
+        "El id del ultimo proceso de la cola es %d, su tiempo de vida es %d y su quantum es %d\n",
+        ready->ultimo->pcbdelnodo.id,
+        ready->ultimo->pcbdelnodo.tiempodevida,
+        ready->ultimo->pcbdelnodo.quantum
+    );
+
+    printf(
+        "El id del primer proceso de la cola es %d, su tiempo de vida es %d y su quantum es %d\n",
+        ready->primero->pcbdelnodo.id,
+        ready->primero->pcbdelnodo.tiempodevida,
+        ready->primero->pcbdelnodo.quantum
+    );
+
     return 0;
 }
