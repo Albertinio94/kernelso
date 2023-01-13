@@ -51,6 +51,12 @@ void desencolar(cola *cola_a_desencolar, nodo *nodo_a_desencolar)
         }
         nodo_para_recorrer->anterior->siguiente = nodo_para_recorrer->siguiente;
         nodo_para_recorrer->siguiente->anterior = nodo_para_recorrer->anterior;
-        free (nodo_a_desencolar);
+        free(nodo_a_desencolar);
     }
+}
+
+void init(cola *cola)
+{
+    cola->primero = NULL;
+    cola->ultimo = NULL;
 }
