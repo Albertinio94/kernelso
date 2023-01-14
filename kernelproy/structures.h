@@ -31,6 +31,7 @@ typedef struct
     int cantidadtemporizadores;
     cola *preparados;
     cola *bloqueados;
+    nodo *proceso_ejecutandose;
 } argumentosparaclockytimer;
 
 void init_cola(cola *cola);

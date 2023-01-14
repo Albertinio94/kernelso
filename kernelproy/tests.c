@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "structures.h"
 #include "processgenerator.h"
+#include "scheduler.h"
 
 int main(int argc, char const *argv[])
 {
@@ -54,9 +55,11 @@ int main(int argc, char const *argv[])
         printf("la cola está vacía\n");
     */
     unsigned int pid;
-    cola *ready;
+    cola *ready, *blocked;
+    nodo *proceso_ejecutandose = NULL;
     srand(time(NULL));
     ready = (cola *) malloc(sizeof(cola));
+    blocked = (cola *) malloc(sizeof(cola));
     init_cola(ready);
     printf("no exploto al llegar a inicializar la cola.\n");
     processgenerator_routine(ready, pid);
@@ -97,6 +100,9 @@ int main(int argc, char const *argv[])
         ready->primero->pcbdelnodo.tiempodevida,
         ready->primero->pcbdelnodo.quantum
     );
+    rutina_scheduler(ready, blocked, proceso_ejecutandose);
+    proceso_ejecutandose->pcbdelnodo.quantum = 0;
+    rutina_scheduler(ready, blocked, proceso_ejecutandose);
 
     return 0;
 }
