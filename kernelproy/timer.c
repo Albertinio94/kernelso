@@ -1,34 +1,37 @@
 #include "timer.h"
-void * timer_scheduler_routine(void * args){
-    common_args *argumentosinterpretados = args;
-    int cuentapulsos=1;
-    pthread_mutex_lock(&argumentosinterpretados->mutex);
-    while(1){
-        argumentosinterpretados->done++;
-        cuentapulsos++;
-        if(cuentapulsos==100){
+#include <stdio.h>
+
+void* timer_scheduler_routine(void* input_args)
+{
+    common_args* args = input_args;
+    int pulses = 1;
+    pthread_mutex_lock(&args->mutex);
+    while (1) {
+        args->done++;
+        pulses++;
+        if (pulses == 100) {
             printf("Soy el scheduler y he contado 100 pulsos\n");
             fflush(stdout);
-            cuentapulsos=1;
+            pulses = 1;
         }
-        pthread_cond_signal(&argumentosinterpretados->condicion1);
-        pthread_cond_wait(&argumentosinterpretados->condicion2, &argumentosinterpretados->mutex);
+        pthread_cond_signal(&args->condition1);
+        pthread_cond_wait(&args->condition2, &args->mutex);
     }
 }
-void * timer_process_generator_routine(void * args){
-    common_args *argumentosinterpretados = args;
-    pthread_mutex_lock(&argumentosinterpretados->mutex);
-    int cuentapulsos=1;
-    while(1){
-        argumentosinterpretados->done++;
-        cuentapulsos++;
-        if(cuentapulsos==500){
+void* timer_process_generator_routine(void* input_args)
+{
+    common_args* args = input_args;
+    pthread_mutex_lock(&args->mutex);
+    int pulses = 1;
+    while (1) {
+        args->done++;
+        pulses++;
+        if (pulses == 500) {
             printf("SOY EL PROCESS GENERATOR Y HE CONTADO 500 PULSOS\n");
             fflush(stdout);
-            cuentapulsos=1;
-            
+            pulses = 1;
         }
-        pthread_cond_signal(&argumentosinterpretados->condicion1);
-        pthread_cond_wait(&argumentosinterpretados->condicion2, &argumentosinterpretados->mutex);
+        pthread_cond_signal(&args->condition1);
+        pthread_cond_wait(&args->condition2, &args->mutex);
     }
 }
