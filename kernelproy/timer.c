@@ -1,6 +1,6 @@
 #include "timer.h"
 void * timer_scheduler_routine(void * args){
-    argumentosparaclockytimer *argumentosinterpretados = args;
+    common_args *argumentosinterpretados = args;
     int cuentapulsos=1;
     pthread_mutex_lock(&argumentosinterpretados->mutex);
     while(1){
@@ -16,7 +16,7 @@ void * timer_scheduler_routine(void * args){
     }
 }
 void * timer_process_generator_routine(void * args){
-    argumentosparaclockytimer *argumentosinterpretados = args;
+    common_args *argumentosinterpretados = args;
     pthread_mutex_lock(&argumentosinterpretados->mutex);
     int cuentapulsos=1;
     while(1){
