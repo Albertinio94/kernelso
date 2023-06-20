@@ -1,22 +1,24 @@
 #ifndef STRUCTURES_H
 #define STRUCTURES_H
 #include <pthread.h>
-typedef struct {
+struct pcb_t{
     int id;
     int ttl;
     int quantum;
-} pcb;
+};
+typedef pcb_t pcb_t;
 
-typedef struct {
-    pcb pcbdelnodo;
-    pcb* next;
-} node;
+struct node_t {
+    pcb_t pcb;
+    struct node_t* next;
+};
+typedef struct node_t node_t;
 
 typedef struct
 {
     node* first;
     node* last;
-} queue;
+} queue_t;
 
 struct common_args {
     pthread_mutex_t mutex;
@@ -24,9 +26,9 @@ struct common_args {
     pthread_cond_t condition2;
     int done;
     int n_timers;
-    queue* preparados;
-    queue* bloqueados;
-    node* proceso_ejecutandose;
+    queue_t* preparados;
+    queue_t* bloqueados;
+    node_t* proceso_ejecutandose;
 };
 typedef struct common_args common_args;
 

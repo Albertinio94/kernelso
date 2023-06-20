@@ -1,107 +1,62 @@
 #include "structures.h"
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 
-void encolar(cola *cola_a_encolar, nodo *nodo_a_encolar)
+void init_queue(queue_t** queue)
 {
-    nodo_a_encolar->anterior = NULL;
-    nodo_a_encolar->next = NULL;
-    if (cola_a_encolar->first == NULL)
-    {
-        cola_a_encolar->first = nodo_a_encolar;
-        cola_a_encolar->last = nodo_a_encolar;
-    }
-    else if (cola_a_encolar->last == cola_a_encolar->first)
-    {
-        nodo_a_encolar->anterior = cola_a_encolar->first;
-        cola_a_encolar->last = nodo_a_encolar;
-        cola_a_encolar->first->next = nodo_a_encolar;
-    }
-    else
-    {
-        cola_a_encolar->last->next = nodo_a_encolar;
-        nodo_a_encolar->anterior = cola_a_encolar->last;
-        cola_a_encolar->last = nodo_a_encolar;
+    *queue = (queue_t*)malloc(sizeof(queue_t));
+    (*queue)->first = NULL;
+    (*queue)->last = NULL;
+}
+
+unsigned int is_empty(queue_t queue)
+{
+    return (queue.first == NULL);
+}
+
+void enqueue(queue_t* queue, pcb_t pcb)
+{
+    node_t* new_node = (node_t*)malloc(sizeof(node_t));
+    new_node->pcb = pcb;
+    new_node->next = NULL;
+
+    if (is_empty(*queue)) {
+        queue->first = queue->last = new_node;
+    } else if (queue->first == queue->last) {
+        queue->last = new_node;
+        queue->first->next = queue->last;
+    } else {
+        queue->last->next = new_node;
+        queue->last = new_node;
     }
 }
 
-void desencolar_y_borrar(cola *cola_a_desencolar, nodo *nodo_a_desencolar)
+pcb_t dequeue(queue_t* queue)
 {
-    nodo *nodo_para_recorrer;
-    if (nodo_a_desencolar == NULL)
-    {
-        return;
+    node_t* temp;
+    pcb_t pcb;
+
+    if (is_empty(*queue)) {
+        return NULL;
     }
-    if (cola_a_desencolar->first == NULL)
-    {
-        return;
+
+    temp = queue->first;
+    pcb = queue->first->pcb;
+    queue->first = queue->first->next;
+
+    free(temp);
+
+    if(queue->first == NULL){
+        queue->first = queue->last = NULL;
     }
-    if (nodo_a_desencolar->pcbdelnodo.id == cola_a_desencolar->first->pcbdelnodo.id)
-    {
-        cola_a_desencolar->first = cola_a_desencolar->first->next;
-        if (cola_a_desencolar->first == NULL)
-        {
-            cola_a_desencolar->last = NULL;
-        }
-        free(nodo_a_desencolar);
-    }
-    else if (nodo_a_desencolar->pcbdelnodo.id == cola_a_desencolar->last->pcbdelnodo.id)
-    {
-        cola_a_desencolar->last = cola_a_desencolar->last->anterior;
-        cola_a_desencolar->last->next = NULL;
-        free(nodo_a_desencolar);
-    }
-    else
-    {
-        nodo_para_recorrer = cola_a_desencolar->first;
-        while (nodo_para_recorrer->pcbdelnodo.id != nodo_a_desencolar->pcbdelnodo.id || nodo_para_recorrnextente == NULL)
-        {
-            nodo_para_recorrer = nodo_para_recorrer->next;
-        }
-        nodo_para_recorrer->anterior->next = nodo_para_recorrer->next;
-        nodo_para_recorrer->next->anterior = nodo_para_recorrer->anterior;
-        free(nodo_a_desencolar);
-    }
+
+    return pcb;
 }
 
-void desencolar(cola *cola_a_desencolar, nodo *nodo_a_desencolar)
-{
-    nodo *nodo_para_recorrer;
-    if (nodo_a_desencolar == NULL)
-    {
-        return;
+void free_queue(queue_t **queue){
+    queue_t *queue_aux = *queue;
+    while (!is_empty(*queue_aux)){
+        dequeue(queue_aux);
     }
-    if (cola_a_desencolar->first == NULL)
-    {
-        return;
-    }
-    if (nodo_a_desencolar->pcbdelnodo.id == cola_a_desencolar->first->pcbdelnodo.id)
-    {
-        cola_a_desencolar->first = cola_a_desencolar->first->next;
-        if (cola_a_desencolar->first == NULL)
-        {
-            cola_a_desencolar->last = NULL;
-        }
-    }
-    else if (nodo_a_desencolar->pcbdelnodo.id == cola_a_desencolar->last->pcbdelnodo.id)
-    {
-        cola_a_desencolar->last = cola_a_desencolar->last->anterior;
-        cola_a_desencolar->last->next = NULL;
-    }
-    else
-    {
-        nodo_para_recorrer = cola_a_desencolar->first;
-        while (nodo_para_recorrer->pcbdelnodo.id != nodo_a_desencolar->pcbdelnodo.id || nodo_para_recorrnextente == NULL)
-        {
-            nodo_para_recorrer = nodo_para_recorrer->next;
-        }
-        nodo_para_recorrer->anterior->next = nodo_para_recorrer->next;
-        nodo_para_recorrer->next->anterior = nodo_para_recorrer->anterior;
-    }
-}
-
-void init_cola(cola *cola)
-{
-    cola->first = NULL;
-    cola->last = NULL;
+    free (queue_aux);
 }

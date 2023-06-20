@@ -2,11 +2,10 @@
 #include "commons.h"
 #include "stdio.h"
 #include "structures.h"
-#include <unistd.h>
-#include <stdlib.h>
-int main(int argc, char const *argv[])
 #include "timer.h"
 #include "unistd.h"
+#include <stdlib.h>
+
 int main(int argc, char const* argv[])
 {
     int i;

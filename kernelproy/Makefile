@@ -1,10 +1,10 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -Iinclude -pthread -ansi
 
-KERNEL_SOURCES = kernel.c
+KERNEL_SOURCES = $(filter-out kernel.c, $(shell find . -type f -name '*.c'))
 KERNEL_OBJECTS = $(KERNEL_SOURCES:.c=.o)
 
-TESTS_SOURCES = tests.c
+TESTS_SOURCES = $(filter-out tests.c, $(shell find . -type f -name '*.c'))
 TESTS_OBJECTS = $(TESTS_SOURCES:.c=.o)
 
 .PHONY: all clean
