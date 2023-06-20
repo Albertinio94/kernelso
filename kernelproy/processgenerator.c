@@ -18,7 +18,7 @@ nodo *init_nodo(unsigned int pid)
     nodo *nuevonodo;
     nuevonodo = malloc(sizeof(nodo));
     assign_pcb(nuevonodo, pid);
-    nuevonodo->siguiente = NULL;
+    nuevonodo->next = NULL;
     nuevonodo->anterior = NULL;
     return nuevonodo;
 }

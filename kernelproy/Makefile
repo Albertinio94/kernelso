@@ -1,20 +1,26 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -Iinclude -pthread -ansi
 
-SOURCES = $(shell find . -type f -name '*.c')
-OBJECTS = $(SOURCES:.c=.o)
+KERNEL_SOURCES = kernel.c
+KERNEL_OBJECTS = $(KERNEL_SOURCES:.c=.o)
+
+TESTS_SOURCES = tests.c
+TESTS_OBJECTS = $(TESTS_SOURCES:.c=.o)
 
 .PHONY: all clean
 
-all: clean kernel
+all: clean kernel tests
 
-kernel: $(OBJECTS)
+kernel: $(KERNEL_OBJECTS)
 	$(CC) $(CFLAGS) $^ -o $@
-	rm -f $(SOURCES:.c=.o)
+	rm -f $(KERNEL_OBJECTS)
+
+tests: $(TESTS_OBJECTS)
+	$(CC) $(CFLAGS) $^ -o $@
+	rm -f $(TESTS_OBJECTS)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJECTS) kernel
-
+	rm -f $(KERNEL_OBJECTS) $(TESTS_OBJECTS) kernel tests

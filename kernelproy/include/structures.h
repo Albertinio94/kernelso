@@ -1,36 +1,38 @@
 #ifndef STRUCTURES_H
 #define STRUCTURES_H
 #include <pthread.h>
-typedef struct{
+typedef struct {
     int id;
-    int tiempo_de_vida;
+    int ttl;
     int quantum;
-}
-pcb;
+} pcb;
+
 typedef struct {
     pcb pcbdelnodo;
-    pcb * siguiente;
-}
-nodo;
+    pcb* next;
+} node;
 
 typedef struct
 {
-    nodo *primero;
-    nodo *ultimo;
-} cola;
+    node* first;
+    node* last;
+} queue;
 
-struct common_args{
+struct common_args {
     pthread_mutex_t mutex;
     pthread_cond_t condition1;
     pthread_cond_t condition2;
     int done;
     int n_timers;
-    cola preparados;
-    cola bloqueados;
+    queue* preparados;
+    queue* bloqueados;
+    node* proceso_ejecutandose;
 };
 typedef struct common_args common_args;
 
+void init_cola(queue* queue);
+void encolar(queue* cola_a_encolar, node* nodo_a_encolar);
+void desencolar_y_borrar(queue* cola_a_desencolar, node* nodo_a_desencolar);
+void desencolar(queue* cola_a_desencolar, node* nodo_a_desencolar);
 
-void encolar(cola *cola_a_encolar, nodo *nodo_a_encolar);
-void desencolar(cola *cola_a_desencolar, nodo *nodo_a_desencolar);
 #endif
