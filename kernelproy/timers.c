@@ -1,4 +1,6 @@
-#include "timer.h"
+#include "timers.h"
+#include "structures.h"
+#include <pthread.h>
 #include <stdio.h>
 
 void* timer_scheduler_routine(void* input_args)
@@ -41,10 +43,9 @@ void* timer_process_generator_routine(void* input_args)
     }
 }
 
-int disminuir_tiempo_de_vida(node *proceso_ejecutandose)
+int disminuir_tiempo_de_vida(node* proceso_ejecutandose)
 {
-    if (proceso_ejecutandose != NULL)
-    {
+    if (proceso_ejecutandose != NULL) {
         proceso_ejecutandose->pcbdelnodo.quantum--;
         proceso_ejecutandose->pcbdelnodo.tiempodevida--;
         return proceso_ejecutandose->pcbdelnodo.quantum == 0 || proceso_ejecutandose->pcbdelnodo.tiempodevida == 0;

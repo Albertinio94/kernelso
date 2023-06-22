@@ -2,24 +2,23 @@
 #include "commons.h"
 #include "stdio.h"
 #include "structures.h"
-#include "timer.h"
+#include "timers.h"
 #include "unistd.h"
 #include <stdlib.h>
 
 int main(int argc, char const* argv[])
 {
-    int i;
+    int i, n_cores;
     pthread_t threads[N_THREADS];
     void* (*functions[N_THREADS])(void*);
     common_args arguments = {
-        .n_timers = 2,
+        .n_timers = N_TIMERS,
         .condition1 = PTHREAD_COND_INITIALIZER,
         .condition2 = PTHREAD_COND_INITIALIZER,
         .mutex = PTHREAD_MUTEX_INITIALIZER,
-        .done = 0,
-        .preparados = malloc(sizeof(cola)),
-        .bloqueados = malloc(sizeof(cola))
+        .done = 0
     };
+
     functions[0] = clock_routine;
     functions[1] = timer_scheduler_routine;
     functions[2] = timer_process_generator_routine;
@@ -29,12 +28,19 @@ int main(int argc, char const* argv[])
         return 1;
     }
 
+    n_cores = atoi(argv[1]);
+
+    init_cpus(&arguments.cpus, n_cores);
+    init_queue(&arguments.ready);
     for (i = 0; i < N_THREADS; i++) {
         pthread_create(&threads[i], NULL, functions[i], &arguments);
     }
     for (i = 0; i < N_THREADS; i++) {
         pthread_join(threads[i], NULL);
     }
+
+    free_queue (&arguments.ready);
+    free_cpus(&arguments.cpus);
 
     return 0;
 }

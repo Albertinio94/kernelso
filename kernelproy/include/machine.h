@@ -2,14 +2,16 @@
 #define MACHINE_H
 #include "structures.h"
 
-struct core {
-    pcb executing_process;
+struct core_t {
+    pcb_t executing_process;
 };
-typedef struct core core;
+typedef struct core_t core_t;
 
-struct cpu {
-    core* cores;
+struct cpu_t {
+    core_t* cores;
 };
-typedef struct cpu cpu;
+typedef struct cpu_t cpu_t;
 
+void init_cpus (cpu_t** cpus, int n_cores);
+void free_cpus(cpu_t** cpus);
 #endif

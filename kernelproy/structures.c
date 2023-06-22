@@ -33,7 +33,7 @@ void enqueue(queue_t* queue, pcb_t pcb)
 
 pcb_t dequeue(queue_t* queue, unsigned char* has_error)
 {
-    pcb_t pcb;
+    pcb_t pcb = { 0, 0, 0 };
     node_t* node;
 
     *has_error = 0;

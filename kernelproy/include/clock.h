@@ -1,5 +1,5 @@
+#include "structures.h"
 #include <pthread.h>
 #include <stdio.h>
-#include "structures.h"
 
-void * clock_routine(void * args);
+void* clock_routine(void* args);
