@@ -10,8 +10,7 @@ int main(int argc, char const *argv[])
         .ttl = 1000,
         .quantum = 100
     };
-
-    pcb_t* pcb_dequeued;
+    unsigned char has_error = 0;
 
     init_queue(&queue);
     enqueue(queue, pcb);
@@ -21,34 +20,35 @@ int main(int argc, char const *argv[])
         return 1;
     }
 
-    pcb_dequeued = dequeue(queue);
-    if (pcb_dequeued == NULL){
+    pcb = dequeue(queue, &has_error);
+    if (has_error){
         printf("error!\n");
         return 1;
     }
-    free(pcb_dequeued);
 
-    pcb_dequeued = dequeue(queue);
-    if (pcb_dequeued == NULL){
-        printf("The pcb is empty!!\n");
-        return 1;
+    pcb = dequeue(queue, &has_error);
+    if (has_error){
+        printf("pcb has no value, queue is empty\n");
     }
 
     if (!is_empty(*queue)){
         printf("error!\n");
         return 1;
     }
+    print_queue(queue);
+
     enqueue(queue, pcb);
     enqueue(queue, pcb);
     enqueue(queue, pcb);
     enqueue(queue, pcb);
+
+    print_queue(queue);
     
-    free_queue(&queue);
+    /*free_queue(&queue);
     if (queue != NULL){
         printf("error!\n");
         return 1;
-    }
-
+    }*/
     /*// usar getopt()
     pcb pcbpruebas = {
         .id = 0,

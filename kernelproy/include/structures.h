@@ -38,7 +38,8 @@ typedef struct common_args common_args;*/
 void init_queue(queue_t** queue);
 unsigned int is_empty(queue_t queue);
 void enqueue(queue_t* queue, pcb_t pcb);
-pcb_t* dequeue(queue_t* queue);
+pcb_t dequeue(queue_t* queue, unsigned char* has_error);
 void free_queue(queue_t** queue);
+void print_queue(queue_t* queue);
 
 #endif

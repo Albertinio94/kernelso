@@ -31,19 +31,22 @@ void enqueue(queue_t* queue, pcb_t pcb)
     }
 }
 
-pcb_t* dequeue(queue_t* queue)
+pcb_t dequeue(queue_t* queue, unsigned char* has_error)
 {
-    pcb_t* pcb;
+    pcb_t pcb;
+    node_t* node;
+
+    *has_error = 0;
 
     if (is_empty(*queue)) {
-        return NULL;
+        *has_error = 1;
+        return pcb;
     }
-    pcb = (pcb_t*) malloc(sizeof(pcb_t));
-    pcb->id = queue->first->pcb.id;
-    pcb->ttl = queue->first->pcb.ttl;
-    pcb->quantum = queue->first->pcb.quantum;
+    pcb = queue->first->pcb;
+    node = queue->first,
 
     queue->first = queue->first->next;
+    free(node);
 
     if (queue->first == NULL) {
         queue->first = queue->last = NULL;
@@ -54,9 +57,26 @@ pcb_t* dequeue(queue_t* queue)
 
 void free_queue(queue_t** queue)
 {
+    unsigned char has_error;
     while (!is_empty(**queue)) {
-        dequeue(*queue);
+        dequeue(*queue, &has_error);
     }
     free(*queue);
     *queue = NULL;
+}
+
+void print_queue(queue_t* queue)
+{
+    node_t* node;
+
+    if (is_empty(*queue)) {
+        printf("The queue is empty\n");
+        return;
+    }
+
+    node = queue->first;
+    while (node != NULL) {
+        printf("id: %d, ttl: %d, quantum: %d\n", node->pcb.id, node->pcb.ttl, node->pcb.quantum);
+        node = node->next;
+    }
 }
