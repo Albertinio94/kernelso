@@ -1,4 +1,6 @@
 #include "clock.h"
+#include "structures.h"
+
 void* clock_routine(void* input_args)
 {
     common_args* args = (common_args*)input_args;

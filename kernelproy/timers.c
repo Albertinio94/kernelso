@@ -1,4 +1,5 @@
 #include "timers.h"
+#include "process_generator.h"
 #include "structures.h"
 #include <pthread.h>
 #include <stdio.h>
@@ -24,8 +25,6 @@ void* timer_process_generator_routine(void* input_args)
 {
     common_args* args = input_args;
     pthread_mutex_lock(&args->mutex);
-    pcb procesogenerado;
-    unsigned int pid = 0;
     int pulses = 1;
     while (1) {
         args->done++;
@@ -33,17 +32,16 @@ void* timer_process_generator_routine(void* input_args)
         if (pulses == 500) {
             printf("SOY EL PROCESS GENERATOR Y HE CONTADO 500 PULSOS\n");
             fflush(stdout);
-            processgenerator(&args->preparados, pid);
-            pid++;
+            process_generator_routine(args->ready);
             pulses = 1;
-            printf("%d\n", args->preparados->last->pcbdelnodo.id);
+            print_queue(args->ready);
         }
         pthread_cond_signal(&args->condition1);
         pthread_cond_wait(&args->condition2, &args->mutex);
     }
 }
 
-int disminuir_tiempo_de_vida(node* proceso_ejecutandose)
+/*int disminuir_tiempo_de_vida(node* proceso_ejecutandose)
 {
     if (proceso_ejecutandose != NULL) {
         proceso_ejecutandose->pcbdelnodo.quantum--;
@@ -51,4 +49,4 @@ int disminuir_tiempo_de_vida(node* proceso_ejecutandose)
         return proceso_ejecutandose->pcbdelnodo.quantum == 0 || proceso_ejecutandose->pcbdelnodo.tiempodevida == 0;
     }
     return 0;
-}
+}*/

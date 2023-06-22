@@ -1,7 +1,6 @@
 #ifndef STRUCTURES_H
 #define STRUCTURES_H
 #include <pthread.h>
-#include "machine.h"
 
 #define NULL_PROCESS_PID 0
 
@@ -23,6 +22,17 @@ struct queue_t {
     node_t* last;
 };
 typedef struct queue_t queue_t;
+
+struct core_t {
+    pcb_t executing_process;
+};
+typedef struct core_t core_t;
+
+struct cpu_t {
+    core_t* cores;
+};
+typedef struct cpu_t cpu_t;
+
 
 struct common_args {
     pthread_mutex_t mutex;

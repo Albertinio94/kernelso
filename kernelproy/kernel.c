@@ -1,6 +1,7 @@
 #include "clock.h"
 #include "commons.h"
 #include "stdio.h"
+#include "machine.h"
 #include "structures.h"
 #include "timers.h"
 #include "unistd.h"
