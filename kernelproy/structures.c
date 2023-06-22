@@ -31,32 +31,32 @@ void enqueue(queue_t* queue, pcb_t pcb)
     }
 }
 
-pcb_t dequeue(queue_t* queue)
+pcb_t* dequeue(queue_t* queue)
 {
-    node_t* temp;
-    pcb_t pcb;
+    pcb_t* pcb;
 
     if (is_empty(*queue)) {
         return NULL;
     }
+    pcb = (pcb_t*) malloc(sizeof(pcb_t));
+    pcb->id = queue->first->pcb.id;
+    pcb->ttl = queue->first->pcb.ttl;
+    pcb->quantum = queue->first->pcb.quantum;
 
-    temp = queue->first;
-    pcb = queue->first->pcb;
     queue->first = queue->first->next;
 
-    free(temp);
-
-    if(queue->first == NULL){
+    if (queue->first == NULL) {
         queue->first = queue->last = NULL;
     }
 
     return pcb;
 }
 
-void free_queue(queue_t **queue){
-    queue_t *queue_aux = *queue;
-    while (!is_empty(*queue_aux)){
-        dequeue(queue_aux);
+void free_queue(queue_t** queue)
+{
+    while (!is_empty(**queue)) {
+        dequeue(*queue);
     }
-    free (queue_aux);
+    free(*queue);
+    *queue = NULL;
 }

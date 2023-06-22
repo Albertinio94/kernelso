@@ -1,11 +1,54 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "structures.h"
-#include "processgenerator.h"
-#include "scheduler.h"
 
 int main(int argc, char const *argv[])
 {
+    queue_t *queue;
+    pcb_t pcb = {
+        .id = 0,
+        .ttl = 1000,
+        .quantum = 100
+    };
+
+    pcb_t* pcb_dequeued;
+
+    init_queue(&queue);
+    enqueue(queue, pcb);
+
+    if (is_empty(*queue)){
+        printf("error!\n");
+        return 1;
+    }
+
+    pcb_dequeued = dequeue(queue);
+    if (pcb_dequeued == NULL){
+        printf("error!\n");
+        return 1;
+    }
+    free(pcb_dequeued);
+
+    pcb_dequeued = dequeue(queue);
+    if (pcb_dequeued == NULL){
+        printf("The pcb is empty!!\n");
+        return 1;
+    }
+
+    if (!is_empty(*queue)){
+        printf("error!\n");
+        return 1;
+    }
+    enqueue(queue, pcb);
+    enqueue(queue, pcb);
+    enqueue(queue, pcb);
+    enqueue(queue, pcb);
+    
+    free_queue(&queue);
+    if (queue != NULL){
+        printf("error!\n");
+        return 1;
+    }
+
     /*// usar getopt()
     pcb pcbpruebas = {
         .id = 0,
@@ -53,7 +96,6 @@ int main(int argc, char const *argv[])
     desencolar(&colapruebas, nodopruebas0);
     if (colapruebas.primero == NULL)
         printf("la cola está vacía\n");
-    */
     unsigned int pid;
     cola *ready, *blocked;
     nodo *proceso_ejecutandose = NULL;
@@ -103,6 +145,6 @@ int main(int argc, char const *argv[])
     rutina_scheduler(ready, blocked, proceso_ejecutandose);
     proceso_ejecutandose->pcbdelnodo.quantum = 0;
     rutina_scheduler(ready, blocked, proceso_ejecutandose);
-
+*/
     return 0;
 }

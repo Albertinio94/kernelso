@@ -6,7 +6,8 @@ struct pcb_t{
     int ttl;
     int quantum;
 };
-typedef pcb_t pcb_t;
+
+typedef struct pcb_t pcb_t;
 
 struct node_t {
     pcb_t pcb;
@@ -14,13 +15,15 @@ struct node_t {
 };
 typedef struct node_t node_t;
 
-typedef struct
+struct queue_t
 {
-    node* first;
-    node* last;
-} queue_t;
+    node_t* first;
+    node_t* last;
+};
 
-struct common_args {
+typedef struct queue_t queue_t;
+
+/*struct common_args {
     pthread_mutex_t mutex;
     pthread_cond_t condition1;
     pthread_cond_t condition2;
@@ -30,11 +33,12 @@ struct common_args {
     queue_t* bloqueados;
     node_t* proceso_ejecutandose;
 };
-typedef struct common_args common_args;
+typedef struct common_args common_args;*/
 
-void init_cola(queue* queue);
-void encolar(queue* cola_a_encolar, node* nodo_a_encolar);
-void desencolar_y_borrar(queue* cola_a_desencolar, node* nodo_a_desencolar);
-void desencolar(queue* cola_a_desencolar, node* nodo_a_desencolar);
+void init_queue(queue_t** queue);
+unsigned int is_empty(queue_t queue);
+void enqueue(queue_t* queue, pcb_t pcb);
+pcb_t* dequeue(queue_t* queue);
+void free_queue(queue_t** queue);
 
 #endif
