@@ -1,4 +1,5 @@
 #include "machine.h"
+#include <stdlib.h>
 
 void init_cpus(cpu_t** cpus, int n_cores)
 {
