@@ -3,6 +3,7 @@
 #include <pthread.h>
 
 #define NULL_PROCESS_PID 0
+#define NULL_PROCESS {0, 0, 0}
 
 struct pcb_t {
     int id;
@@ -30,26 +31,27 @@ typedef struct core_t core_t;
 
 struct cpu_t {
     core_t* cores;
+    int n_cores;
 };
 typedef struct cpu_t cpu_t;
-
 
 struct common_args {
     pthread_mutex_t mutex_clock;
     pthread_cond_t condition_pulse_consumed;
     pthread_cond_t condition_pulse_generated;
-    int done;
+    int consumed_pulses;
     int n_timers;
     queue_t* ready;
     pcb_t null_process;
     cpu_t* cpus;
+    int n_cpus;
 };
 typedef struct common_args common_args;
 
 void init_queue(queue_t** queue);
 unsigned int is_empty(queue_t queue);
 void enqueue(queue_t* queue, pcb_t pcb);
-pcb_t dequeue(queue_t* queue, unsigned char* has_error);
+pcb_t dequeue(queue_t* queue);
 void free_queue(queue_t** queue);
 void print_queue(queue_t* queue);
 

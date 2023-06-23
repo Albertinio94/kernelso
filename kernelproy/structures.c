@@ -31,15 +31,13 @@ void enqueue(queue_t* queue, pcb_t pcb)
     }
 }
 
-pcb_t dequeue(queue_t* queue, unsigned char* has_error)
+/*If the queue is empty, it will return the null process*/
+pcb_t dequeue(queue_t* queue)
 {
-    pcb_t pcb = { 0, 0, 0 };
+    pcb_t pcb = NULL_PROCESS;
     node_t* node;
 
-    *has_error = 0;
-
     if (is_empty(*queue)) {
-        *has_error = 1;
         return pcb;
     }
     pcb = queue->first->pcb;
@@ -57,9 +55,8 @@ pcb_t dequeue(queue_t* queue, unsigned char* has_error)
 
 void free_queue(queue_t** queue)
 {
-    unsigned char has_error;
     while (!is_empty(**queue)) {
-        dequeue(*queue, &has_error);
+        dequeue(*queue);
     }
     free(*queue);
     *queue = NULL;
