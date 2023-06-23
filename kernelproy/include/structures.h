@@ -39,6 +39,8 @@ struct common_args {
     pthread_mutex_t mutex_clock;
     pthread_cond_t condition_pulse_consumed;
     pthread_cond_t condition_pulse_generated;
+    pthread_mutex_t mutex_machine;
+    pthread_mutex_t mutex_queue;
     int consumed_pulses;
     int n_timers;
     queue_t* ready;

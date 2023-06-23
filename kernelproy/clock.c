@@ -15,13 +15,17 @@ void* clock_routine(void* input_args)
         args->consumed_pulses = 0;
 
         /*Advance machine*/
+        pthread_mutex_lock(&args->mutex_machine);
         for (i = 0; i < args->n_cpus; i++) {
             for (j = 0; j < args->cpus[i].n_cores; j++) {
                 if (--(args->cpus[i].cores[j].executing_process.ttl) <= 0) {
+                    pthread_mutex_lock(&args->mutex_queue);
                     schedule_dispatch(&args->cpus[i].cores[j], args->ready);
+                    pthread_mutex_unlock(&args->mutex_queue);
                 }
             }
         }
+        pthread_mutex_unlock(&args->mutex_machine);
         pthread_cond_broadcast(&args->condition_pulse_generated);
         pthread_mutex_unlock(&args->mutex_clock);
     }

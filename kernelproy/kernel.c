@@ -17,9 +17,10 @@ int main(int argc, char const* argv[])
         .condition_pulse_consumed = PTHREAD_COND_INITIALIZER,
         .condition_pulse_generated = PTHREAD_COND_INITIALIZER,
         .mutex_clock = PTHREAD_MUTEX_INITIALIZER,
+        .mutex_machine = PTHREAD_MUTEX_INITIALIZER,
+        .mutex_queue = PTHREAD_MUTEX_INITIALIZER,
         .consumed_pulses = 0,
-        .null_process = { NULL_PROCESS_PID, 0, 0 }
-
+        .null_process = NULL_PROCESS
     };
 
     functions[0] = clock_routine;
