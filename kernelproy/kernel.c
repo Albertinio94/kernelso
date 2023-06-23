@@ -14,9 +14,9 @@ int main(int argc, char const* argv[])
     void* (*functions[N_THREADS])(void*);
     common_args arguments = {
         .n_timers = N_TIMERS,
-        .condition1 = PTHREAD_COND_INITIALIZER,
-        .condition2 = PTHREAD_COND_INITIALIZER,
-        .mutex = PTHREAD_MUTEX_INITIALIZER,
+        .condition_pulse_consumed = PTHREAD_COND_INITIALIZER,
+        .condition_pulse_generated = PTHREAD_COND_INITIALIZER,
+        .mutex_clock = PTHREAD_MUTEX_INITIALIZER,
         .done = 0
     };
 

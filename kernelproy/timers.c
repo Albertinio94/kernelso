@@ -8,7 +8,7 @@ void* timer_scheduler_routine(void* input_args)
 {
     common_args* args = input_args;
     int pulses = 1;
-    pthread_mutex_lock(&args->mutex);
+    pthread_mutex_lock(&args->mutex_clock);
     while (1) {
         args->done++;
         pulses++;
@@ -17,14 +17,14 @@ void* timer_scheduler_routine(void* input_args)
             fflush(stdout);
             pulses = 1;
         }
-        pthread_cond_signal(&args->condition1);
-        pthread_cond_wait(&args->condition2, &args->mutex);
+        pthread_cond_signal(&args->condition_pulse_consumed);
+        pthread_cond_wait(&args->condition_pulse_generated, &args->mutex_clock);
     }
 }
 void* timer_process_generator_routine(void* input_args)
 {
     common_args* args = input_args;
-    pthread_mutex_lock(&args->mutex);
+    pthread_mutex_lock(&args->mutex_clock);
     int pulses = 1;
     while (1) {
         args->done++;
@@ -36,8 +36,8 @@ void* timer_process_generator_routine(void* input_args)
             pulses = 1;
             print_queue(args->ready);
         }
-        pthread_cond_signal(&args->condition1);
-        pthread_cond_wait(&args->condition2, &args->mutex);
+        pthread_cond_signal(&args->condition_pulse_consumed);
+        pthread_cond_wait(&args->condition_pulse_generated, &args->mutex_clock);
     }
 }
 

@@ -35,9 +35,9 @@ typedef struct cpu_t cpu_t;
 
 
 struct common_args {
-    pthread_mutex_t mutex;
-    pthread_cond_t condition1;
-    pthread_cond_t condition2;
+    pthread_mutex_t mutex_clock;
+    pthread_cond_t condition_pulse_consumed;
+    pthread_cond_t condition_pulse_generated;
     int done;
     int n_timers;
     queue_t* ready;
